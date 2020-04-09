@@ -79,6 +79,8 @@ function Animate(timestamp) {
 // Main drawing code - use information contained in variable `scene`
 function DrawScene() {
     console.log(scene);
+    if(view.type == 'perspective')
+        for(
 }
 
 // Called when user selects a new scene JSON file
