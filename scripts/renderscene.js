@@ -95,9 +95,15 @@ function DrawScene() {
             }
 
             else if (scene.models[i].type == "cube") {
+                var x = scene.models[i].center[0] - (scene.models[i].width / 2);
+                var y = scene.models[i].center[1] - (scene.models[i].height / 2);
+                var z = scene.models[i].center[2] - (scene.models[i].depth / 2);
+                var vertex1 = Vector4[x, y, z, 1];
+                var vertex2 = Vector4[x + scene.models[i].width, y, z, 1];
+                var vertex3 = Vector4[x + scene.models[i].width, y, z + scene.models[i].depth, 1];
                 
             }
-
+                
 
         }
     }
