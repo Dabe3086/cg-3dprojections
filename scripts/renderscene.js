@@ -71,6 +71,7 @@ function Animate(timestamp) {
 
     // ... step 2
 
+
     DrawScene();
 
     window.requestAnimationFrame(Animate);
@@ -78,9 +79,28 @@ function Animate(timestamp) {
 
 // Main drawing code - use information contained in variable `scene`
 function DrawScene() {
-    console.log(scene);
-    if(view.type == 'perspective')
-        for(
+    //console.log(scene);
+    
+    if(scene.view.type == 'perspective') {
+
+        for (var i = 0; i < scene.models.length; i++) {
+            
+            if (scene.models[i].type == "generic") {
+                
+                for (var j = 0; j < scene.models[i].vertices.length; j++) {
+                    console.log("hello");
+                    var length = scene.models[i].vertices.length;
+                    DrawLine(scene.models[i].vertices[j%length].x, scene.models[i].vertices[j%length].y, scene.models[i].vertices[(j+1)%length].x, scene.models[i].vertices[(j+1)%length].y);
+                }
+            }
+
+            else if (scene.models[i].type == "cube") {
+                
+            }
+
+
+        }
+    }
 }
 
 // Called when user selects a new scene JSON file
