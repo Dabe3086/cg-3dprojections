@@ -16,7 +16,7 @@ function Init() {
     // initial scene... feel free to change this
     scene = {
         view: {
-            type: 'perspective',
+            type: 'parallel',
             prp: Vector3(44, 20, -16),
             srp: Vector3(20, 20, -40),
             vup: Vector3(0, 1, 0),
@@ -45,9 +45,7 @@ function Init() {
                     [2, 7],
                     [3, 8],
                     [4, 9]
-                ],
-                matrix: new Matrix(4, 4)
-            }*/
+                ],*/
             {
                 "type": "cube",
                 "center": [4, 4, -10],
@@ -55,6 +53,7 @@ function Init() {
                 "height": 8,
                 "depth": 8
             },
+            matrix: new Matrix(4, 4)
         ]
     };
 
@@ -76,7 +75,7 @@ function Animate(timestamp) {
 
     var time = timestamp - start_time;
 
-    // ... step 2
+    
 
 
     DrawScene();
@@ -88,7 +87,7 @@ function Animate(timestamp) {
 function DrawScene() {
     //console.log(scene);
     
-    if(scene.view.type == 'perspective') {
+    if(scene.view.type == 'parallel') {
 
         for (var i = 0; i < scene.models.length; i++) {
             
