@@ -45,11 +45,15 @@ function Init() {
                     [2, 7],
                     [3, 8],
                     [4, 9]
+<<<<<<< HEAD
                 ],
                 matrix: new Matrix(4, 4)
             }
 
             /*
+=======
+                ],*/
+>>>>>>> 8bf5abf8e3ad106152926ff9020bfec0b8e116a0
             {
                 type: "cube",
                 center: [500, 500, -10],
@@ -58,7 +62,11 @@ function Init() {
                 depth: 30,
                 matrix: new Matrix(4, 4)
             },
+<<<<<<< HEAD
             */
+=======
+            matrix: new Matrix(4, 4)
+>>>>>>> 8bf5abf8e3ad106152926ff9020bfec0b8e116a0
         ]
     };
 
@@ -80,6 +88,7 @@ function Animate(timestamp) {
 
     var time = timestamp - start_time;
 
+<<<<<<< HEAD
     // ... step 2
     if (scene.type = "parallel") {
 
@@ -92,6 +101,9 @@ function Animate(timestamp) {
         console.log(scene.models[0].matrix);
 
     }
+=======
+    
+>>>>>>> 8bf5abf8e3ad106152926ff9020bfec0b8e116a0
 
 
     DrawScene();
