@@ -23,7 +23,7 @@ function Init() {
             clip: [-19, 5, -10, 8, 12, 100]
         },
         models: [
-            {
+            /*{
                 type: 'generic',
                 vertices: [
                     Vector4( 0,  0, -30, 1),
@@ -47,7 +47,14 @@ function Init() {
                     [4, 9]
                 ],
                 matrix: new Matrix(4, 4)
-            }
+            }*/
+            {
+                "type": "cube",
+                "center": [4, 4, -10],
+                "width": 8,
+                "height": 8,
+                "depth": 8
+            },
         ]
     };
 
@@ -98,29 +105,28 @@ function DrawScene() {
                 var x = scene.models[i].center[0] - (scene.models[i].width / 2);
                 var y = scene.models[i].center[1] - (scene.models[i].height / 2);
                 var z = scene.models[i].center[2] - (scene.models[i].depth / 2);
-                var v1 = Vector4[x, y, z, 1];
-                var v2 = Vector4[x + scene.models[i].width, y, z, 1];
-                var v3 = Vector4[x + scene.models[i].width, y, z + scene.models[i].depth, 1];
-                var v4 = Vector4[x, y, z + scene.models[i].depth, 1];
-                var v5 = Vector4[x, y + scene.models[i].height, z + scene.models[i].depth, 1];
-                var v6 = Vector4[x + scene.models[i].width, y + scene.models[i].height, z + scene.models[i].depth, 1];
-                var v7 = Vector4[x + scene.models[i].width, y + scene.models[i].height, z, 1];
-                var v8 = Vector4[x, y + scene.models[i].height, z, 1];
-                DrawLine(v1 [0], v1[1], v2[0], v2[1]);
-                DrawLine(v2 [0], v2[1], v3[0], v3[1]);
-                DrawLine(v3 [0], v3[1], v4[0], v4[1]);
-                DrawLine(v4 [0], v4[1], v1[0], v1[1]);
-                DrawLine(v1 [0], v1[1], v8[0], v8[1]);
-                DrawLine(v8 [0], v8[1], v7[0], v7[1]);
-                DrawLine(v7 [0], v7[1], v6[0], v6[1]);
-                DrawLine(v6 [0], v6[1], v5[0], v5[1]);
-                DrawLine(v5 [0], v5[1], v8[0], v8[1]);
-                DrawLine(v5 [0], v5[1], v4[0], v4[1]);
-                DrawLine(v6 [0], v6[1], v3[0], v3[1]);
-                DrawLine(v7 [0], v7[1], v2[0], v2[1]);
-                }
-                
-
+                var v1 = Vector4(x, y, z, 1);
+                var v2 = Vector4(x + scene.models[i].width, y, z, 1);
+                var v3 = Vector4(x + scene.models[i].width, y, z + scene.models[i].depth, 1);
+                var v4 = Vector4(x, y, z + scene.models[i].depth, 1);
+                var v5 = Vector4(x, y + scene.models[i].height, z + scene.models[i].depth, 1);
+                var v6 = Vector4(x + scene.models[i].width, y + scene.models[i].height, z + scene.models[i].depth, 1);
+                var v7 = Vector4(x + scene.models[i].width, y + scene.models[i].height, z, 1);
+                var v8 = Vector4(x, y + scene.models[i].height, z, 1);
+                DrawLine(v1.x, v1.y, v2.x, v2.y);
+                DrawLine(v2.x, v2.y, v3.x, v3.y);
+                DrawLine(v3.x, v3.y, v4.x, v4.y);
+                DrawLine(v4.x, v4.y, v1.x, v1.y);
+                DrawLine(v1 .x, v1.y, v8.x, v8.y);
+                DrawLine(v8 .x, v8.y, v7.x, v7.y);
+                DrawLine(v7 .x, v7.y, v6.x, v6.y);
+                DrawLine(v6 .x, v6.y, v5.x, v5.y);
+                DrawLine(v5 .x, v5.y, v8.x, v8.y);
+                DrawLine(v5 .x, v5.y, v4.x, v4.y);
+                DrawLine(v6 .x, v6.y, v3.x, v3.y);
+                DrawLine(v7 .x, v7.y, v2.x, v2.y);
+            }
+          
         }
     }
 }
