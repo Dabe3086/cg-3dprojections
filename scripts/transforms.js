@@ -29,7 +29,7 @@ function Mat4x4Parallel(mat4x4, prp, srp, vup, clip) {
     mat4x4.values = transformation.values;
 }
 
-// set values of mat4x4 to the parallel projection / view matrix
+// set values of mat4x4 to the perspective projection / view matrix
 function Mat4x4Projection(mat4x4, prp, srp, vup, clip) {
     var transform = [];
     transform[4] = mat4x4;
@@ -69,6 +69,11 @@ function Mat4x4MPar(mat4x4) {
 // set values of mat4x4 to project a perspective image on the z=-1 plane
 function Mat4x4MPer(mat4x4) {
     // mat4x4.values = ...;
+    mat4x4.values = [[1, 0, 0, 0],
+                     [0, 1, 0, 0],
+                     [0, 0, 1, 0],
+                     [0, 0, -1, 1]];
+
 }
 
 
