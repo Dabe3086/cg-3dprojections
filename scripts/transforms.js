@@ -60,7 +60,10 @@ function Mat4x4Projection(mat4x4, prp, srp, vup, clip) {
 
 // set values of mat4x4 to project a parallel image on the z=0 plane
 function Mat4x4MPar(mat4x4) {
-    // mat4x4.values = ...;
+    mat4x4.values = [[1, 0, 0, 0],
+                     [0, 1, 0, 0],
+                     [0, 0, 0, 0],
+                     [0, 0, 0, 1]];
 }
 
 // set values of mat4x4 to project a perspective image on the z=-1 plane
