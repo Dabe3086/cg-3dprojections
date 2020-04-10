@@ -16,14 +16,14 @@ function Init() {
     // initial scene... feel free to change this
     scene = {
         view: {
-            type: 'perspective',
+            type: 'parallel',
             prp: Vector3(44, 20, -16),
             srp: Vector3(20, 20, -40),
             vup: Vector3(0, 1, 0),
             clip: [-19, 5, -10, 8, 12, 100]
         },
         models: [
-            /*{
+            {
                 type: 'generic',
                 vertices: [
                     Vector4( 0,  0, -30, 1),
@@ -47,14 +47,18 @@ function Init() {
                     [4, 9]
                 ],
                 matrix: new Matrix(4, 4)
-            }*/
+            }
+
+            /*
             {
-                "type": "cube",
-                "center": [4, 4, -10],
-                "width": 8,
-                "height": 8,
-                "depth": 8
+                type: "cube",
+                center: [500, 500, -10],
+                width: 30,
+                height: 30,
+                depth: 30,
+                matrix: new Matrix(4, 4)
             },
+            */
         ]
     };
 
@@ -77,6 +81,17 @@ function Animate(timestamp) {
     var time = timestamp - start_time;
 
     // ... step 2
+    if (scene.type = "parallel") {
+
+        //var m = new Matrix(4, 4);
+        console.log(scene.models[0].matrix);
+        Mat4x4MPar(scene.models[0].matrix);
+        console.log(scene.models[0].matrix);
+
+        Mat4x4Parallel(scene.models[0].matrix, scene.view.prp, scene.view.srp, scene.view.vup, scene.view.clip);
+        console.log(scene.models[0].matrix);
+
+    }
 
 
     DrawScene();
@@ -88,7 +103,7 @@ function Animate(timestamp) {
 function DrawScene() {
     //console.log(scene);
     
-    if(scene.view.type == 'perspective') {
+    if(scene.view.type == 'parallel') {
 
         for (var i = 0; i < scene.models.length; i++) {
             
@@ -170,12 +185,18 @@ function OnKeyDown(event) {
     switch (event.keyCode) {
         case 37: // LEFT Arrow
             console.log("left");
+            scene.view.prp.x = scene.view.prp.x - 1;
+            scene.view.srp.x = scene.view.srp.x - 1;
+            DrawScene();
             break;
         case 38: // UP Arrow
             console.log("up");
             break;
         case 39: // RIGHT Arrow
             console.log("right");
+            scene.view.prp.x = scene.view.prp.x + 1;
+            scene.view.srp.x = scene.view.srp.x + 1;
+            DrawScene();
             break;
         case 40: // DOWN Arrow
             console.log("down");
