@@ -21,9 +21,9 @@ function Mat4x4Parallel(mat4x4, prp, srp, vup, clip) {
     // 4. translate near clipping plane to origin
     transform[1] = Mat4x4Translate(mat4x4, tx, ty, clip[4]);
     // 5. scale such that view volume bounds are ([-1,1], [-1,1], [-1,0])
-    var sparx = 2/(clip[1]-clip[0]);
+    var sparx = 2/(clip[1] -clip[0]);
     var spary = 2/(clip[3] -clip[2]);
-    var sparz = 1/clip[5];
+    var sparz = 1/(clip[4] -clip[5]);
     transform[0] = mat4x4Scale(mat4x4, sparx, spary, sparz);
     transformation = Matrix.multiply(transform);
     mat4x4.values = transformation.values;
