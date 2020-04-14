@@ -62,7 +62,7 @@ function Mat4x4Parallel(mat4x4, prp, srp, vup, clip) {
 // set values of mat4x4 to the perspective projection / view matrix
 function Mat4x4Projection(mat4x4, prp, srp, vup, clip) {
     var transform = [];
-    transform[4] = mat4x4;
+    transform[5] = mat4x4;
     // 1. translate PRP to origin
     transform[4] = new Matrix(4, 4);
     Mat4x4Translate(transform[4], -prp.x, -prp.y, -prp.z);
