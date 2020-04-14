@@ -45,28 +45,19 @@ function Init() {
                     [2, 7],
                     [3, 8],
                     [4, 9]
-<<<<<<< HEAD
                 ],
-                matrix: new Matrix(4, 4)
-            }
-
-            /*
-=======
-                ],*/
->>>>>>> 8bf5abf8e3ad106152926ff9020bfec0b8e116a0
-            {
+            
+                /*
                 type: "cube",
                 center: [500, 500, -10],
                 width: 30,
                 height: 30,
                 depth: 30,
                 matrix: new Matrix(4, 4)
+                */
+                matrix: new Matrix(4, 4)
             },
-<<<<<<< HEAD
-            */
-=======
-            matrix: new Matrix(4, 4)
->>>>>>> 8bf5abf8e3ad106152926ff9020bfec0b8e116a0
+            
         ]
     };
 
@@ -88,23 +79,13 @@ function Animate(timestamp) {
 
     var time = timestamp - start_time;
 
-<<<<<<< HEAD
     // ... step 2
     if (scene.type = "parallel") {
 
-        //var m = new Matrix(4, 4);
-        console.log(scene.models[0].matrix);
-        Mat4x4MPar(scene.models[0].matrix);
-        console.log(scene.models[0].matrix);
-
         Mat4x4Parallel(scene.models[0].matrix, scene.view.prp, scene.view.srp, scene.view.vup, scene.view.clip);
-        console.log(scene.models[0].matrix);
-
     }
-=======
-    
->>>>>>> 8bf5abf8e3ad106152926ff9020bfec0b8e116a0
 
+    
 
     DrawScene();
 
@@ -114,7 +95,6 @@ function Animate(timestamp) {
 // Main drawing code - use information contained in variable `scene`
 function DrawScene() {
     //console.log(scene);
-    
     if(scene.view.type == 'parallel') {
 
         for (var i = 0; i < scene.models.length; i++) {
@@ -197,17 +177,16 @@ function OnKeyDown(event) {
     switch (event.keyCode) {
         case 37: // LEFT Arrow
             console.log("left");
-            scene.view.prp.x = scene.view.prp.x - 1;
-            scene.view.srp.x = scene.view.srp.x - 1;
-            DrawScene();
+            scene.view.prp = scene.view.prp.x - 10;
+            scene.view.srp.x = scene.view.srp.x - 10;
             break;
         case 38: // UP Arrow
             console.log("up");
             break;
         case 39: // RIGHT Arrow
             console.log("right");
-            scene.view.prp.x = scene.view.prp.x + 1;
-            scene.view.srp.x = scene.view.srp.x + 1;
+            scene.view.prp.x = scene.view.prp.x + 10;
+            scene.view.srp.x = scene.view.srp.x + 10;
             DrawScene();
             break;
         case 40: // DOWN Arrow
@@ -227,4 +206,77 @@ function DrawLine(x1, y1, x2, y2) {
     ctx.fillStyle = '#FF0000';
     ctx.fillRect(x1 - 2, y1 - 2, 4, 4);
     ctx.fillRect(x2 - 2, y2 - 2, 4, 4);
+
+    Clip(x1, y1, x2, y2, view);
+}
+
+function Clip(x1, y1, x2, y2, view)
+{
+    var done = false;
+    var x, y, outcode0, outcode1, selected_outcode;
+    var line = null;
+    var new_pt0 = {x: x1, y: y1};
+    var new_pt1 = {x: x2, y: y2};
+    while (!done)
+    {
+        outcode0 = Outcode(new_pt0, view);
+        outcode1 = Outcode(new_pt1, view);
+        if((outcode0 | outcode1) === 0)
+        {
+            done = true;
+            line = {pt0: new_pt0, pt1: new_pt1};
+        }
+        else if((outcode0 & outcode1) !== 0)
+        {
+            done = true;
+        }
+        else
+        {
+            if(outcode0 !== 0)
+            {
+                selected_outcode = outcode0;
+            }
+            else
+            {
+                selected_outcode = outcode1;
+            }
+            console.log(selected_outcode);
+            if(selected_outcode & LEFT)
+            {
+                t = (view.x_min - new_pt0.x)/ (new_pt1.x - new_pt0.x);
+            }
+            else if(selected_outcode & RIGHT)
+            {
+                t = (view.x_max - new_pt0.x)/ (new_pt1.x - new_pt0.x);
+            }
+            else if(selected_outcode & BOTTOM)
+            {
+                t = (view.y_min - new_pt0.y)/ (new_pt1.y - new_pt0.y);
+            }
+            else
+            {
+                t = (view.y_max - new_pt0.y)/ (new_pt1.y - new_pt0.y);
+            }
+            if (selected_outcode === outcode0)
+            {
+                new_pt0.x = new_pt0.x + t * (new_pt1.x - new_pt0.x);
+                new_pt0.y = new_pt0.y + t * (new_pt1.y - new_pt0.y);
+            }
+            else
+            {
+                new_pt1.x = new_pt0.x + t * (new_pt1.x - new_pt0.x);
+                new_pt1.y = new_pt0.y + t * (new_pt1.y - new_pt0.y);
+            }
+        }
+    }
+    return line;
+}
+function Outcode(pt, view)
+{
+    var outcode = 0;
+    if (pt.x < view.x_min) outcode += LEFT;
+    else if (pt.x > view.x_max) outcode += RIGHT;
+    if (pt.y < view.y_min) outcode += BOTTOM;
+    else if (pt.y > view.y_max) outcode += TOP;
+    return outcode;
 }
