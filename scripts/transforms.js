@@ -64,28 +64,50 @@ function Mat4x4Projection(mat4x4, prp, srp, vup, clip) {
     var transform = [];
     transform[4] = mat4x4;
     // 1. translate PRP to origin
-    transform[3] = Mat4x4Translate(mat4x4, -prp.x, -prp.y, -prp.z);
+    transform[4] = new Matrix(4, 4);
+    Mat4x4Translate(transform[4], -prp.x, -prp.y, -prp.z);
     // 2. rotate VRC such that (u,v,n) align with (x,y,z)
-    var n = (prp - srp).normalize;
-    var u = (vup - n).normalize;
-    var v = n.mult(v);
-    var vrc = (n, u, v);
-    var rotateMatrix = [[vrc.u[0], vrc.u[1], vrc.u[2], 0],
-                        [vrc.v[0], vrc.v[1], vrc.v[2], 0],
-                        [vrc.n[0], vrc.n[1], vrc.n[2], 0],
-                        [       0,        0,        0, 1]];
-    transform[2] = rotateMatrix;
+    var n = Vector3(prp.x-srp.x, prp.y-srp.y, prp.z-srp.z);
+    n.normalize();
+
+    var temp = vup.cross(n);
+    var u = Vector3(temp.x, temp.y, temp.z);
+    u.normalize();
+    
+    var v = u.cross(n);
+    
+    var vrc = [n, u, v];
+
+    var temp = [[vrc[1].x, vrc[1].y, vrc[1].z, 0],
+                [vrc[2].x, vrc[2].y, vrc[2].z, 0],
+                [vrc[0].x, vrc[0].y, vrc[0].z, 0],
+                [       0,        0,        0, 1]];
+
+    var rotateMatrix = new Matrix(4, 4);
+    rotateMatrix.values = temp;
+    transform[3] = rotateMatrix;
     // 3. shear such that CW is on the z-axis
     var cw = (((clip[2] + clip[3])/2),((clip[0] + clip[1])/2));
     var dop = cw - prp;
-    transform[1] = Mat4x4ShearXY(mat4x4, (-dop.x / dop.z), dop.y / dop.z);
+    transform[2] = new Matrix(4, 4);
+    
+    Mat4x4ShearXY(transform[2], (-dop.x / dop.z), dop.y / dop.z);
     // 4. scale such that view volume bounds are ([z,-z], [z,-z], [-1,zmin])
     var sperx = ((2 * clip[4])/((clip[1]-clip[0])* clip[5]));
     var spery = ((2 * clip[4])/((clip[3] -clip[2])* clip[5]));
     var sperz = 1/clip[5];
-    transform[0] = mat4x4Scale(mat4x4, sperx, spery, sperz);
+    transform[0] = new Matrix(4, 4);
+    Mat4x4Scale(transform[0], sperx, spery, sperz);
+    
     transformation = Matrix.multiply(transform);
     mat4x4.values = transformation.values;
+
+    
+    var mat1 = new Matrix(4, 4);
+    Mat4x4MPar(mat1);
+    mat = new Matrix(4, 4);
+    mat = Matrix.multiply([mat1, transformation]);
+    transformation = mat;
 }
 
 // set values of mat4x4 to project a parallel image on the z=0 plane
