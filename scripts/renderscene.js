@@ -80,12 +80,22 @@ function Animate(timestamp) {
     var time = timestamp - start_time;
 
     // ... step 2
-    if (scene.type = "parallel") {
-
+    /*
+    if (scene.view.type == "parallel") {
+        
         Mat4x4Parallel(scene.models[0].matrix, scene.view.prp, scene.view.srp, scene.view.vup, scene.view.clip);
     }
 
-    
+    else if (scene.view.type == "perspective") {
+        console.log("per");
+        Mat4x4Projection(scene.models[0].matrix, scene.view.prp, scene.view.srp, scene.view.vup, scene.view.clip);
+    }
+
+    else {
+
+    }
+    */
+
 
     DrawScene();
 
@@ -95,14 +105,11 @@ function Animate(timestamp) {
 // Main drawing code - use information contained in variable `scene`
 function DrawScene() {
     //console.log(scene);
-    if(scene.view.type == 'parallel') {
-
         for (var i = 0; i < scene.models.length; i++) {
             
             if (scene.models[i].type == "generic") {
                 
                 for (var j = 0; j < scene.models[i].vertices.length; j++) {
-                    console.log("hello");
                     var length = scene.models[i].vertices.length;
                     DrawLine(scene.models[i].vertices[j%length].x, scene.models[i].vertices[j%length].y, scene.models[i].vertices[(j+1)%length].x, scene.models[i].vertices[(j+1)%length].y);
                 }
@@ -135,7 +142,7 @@ function DrawScene() {
             }
           
         }
-    }
+    
 }
 
 // Called when user selects a new scene JSON file
@@ -177,11 +184,15 @@ function OnKeyDown(event) {
     switch (event.keyCode) {
         case 37: // LEFT Arrow
             console.log("left");
-            scene.view.prp = scene.view.prp.x - 10;
+            scene.view.prp.x = scene.view.prp.x - 10;
             scene.view.srp.x = scene.view.srp.x - 10;
+            console.log(scene.view.prp.x);
+            DrawScene();
             break;
         case 38: // UP Arrow
             console.log("up");
+            scene.view.prp.y = scene.view.prp.y + 10;
+            scene.view.srp.y = scene.view.srp.y + 10;
             break;
         case 39: // RIGHT Arrow
             console.log("right");
@@ -191,6 +202,8 @@ function OnKeyDown(event) {
             break;
         case 40: // DOWN Arrow
             console.log("down");
+            scene.view.prp.y = scene.view.prp.y - 10;
+            scene.view.srp.y = scene.view.srp.y - 10;
             break;
     }
 }
